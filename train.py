@@ -1,3 +1,6 @@
+import sys        
+sys.path.append('./src')
+
 import argparse
 from transformers import Seq2SeqTrainer
 from loaders.load_data import load_data_nusax

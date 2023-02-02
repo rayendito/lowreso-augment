@@ -1,6 +1,5 @@
 from transformers import Seq2SeqTrainingArguments
 
-
 def load_training_args():
     training_args = Seq2SeqTrainingArguments(
         output_dir="./../dumps",
