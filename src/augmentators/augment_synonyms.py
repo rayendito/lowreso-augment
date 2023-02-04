@@ -1,8 +1,5 @@
-# import sys, os
-# sys.path.append(os.path.abspath(os.path.join('..')))
-
+import os
 import pandas as pd
-from loaders.load_data import load_data_nusax_jv
 
 def _get_preprocessed_lexicon(src_wordlist, tgt_wordlist):
     # sanity check
@@ -53,12 +50,6 @@ def _get_all_synonym_permutation(synonyms, tokenized_txt):
     def _get_counter_idx_key(idx):
         return list(dict_counter[idx])[0]
 
-    print(" ".join(tokenized_txt))
-    print(synonyms)
-    print(dict_counter)
-    # {0: {2: 2}, 1: {7: 1}, 2: {8: 3}, 3: {11: 3}}
-    print(_get_counter_idx_key(3))
-
     def _all_not_at_max():
         for i in dict_counter:
             if(dict_counter[i][_get_counter_idx_key(i)] < len(synonyms[_get_counter_idx_key(i)])-1):
@@ -87,23 +78,25 @@ def _get_all_synonym_permutation(synonyms, tokenized_txt):
 
         # append to new_sents
         new_sentences.append(" ".join(tokenized_txt))
+    
+    return new_sentences
         
 
 def augment_parallel_with_synonym(corpus, lexicon, src_lang, tgt_lang):
 
-    augmented_data = []
-    for i in range(len(corpus)):
-        # CARI YANG NGGA CUMA SATU BUAT NGETES
-        i += 1
-        # DELETE WHEN DONE
+    tgt_path = "./data/augment_synonym/"+"synonym_augmented_{}-{}.csv".format(src_lang, tgt_lang)
 
+    print("Creating new training instances from synonyms...")
+    for i in range(2):
         syn_entries = _get_synonym_entries_used(corpus[i][tgt_lang].split(), lexicon.values())
-        
         if(len(syn_entries) == 0):
             continue
-        
-        _get_all_synonym_permutation(syn_entries, corpus[i][tgt_lang].split())
-        # one_entry_augmented = [(corpus[i][src_lang], aug) for aug in _get_all_synonym_permutation()]
-        # print(one_entry_augmented)
-        
-        break
+
+        one_entry_augmented = [(corpus[i][src_lang], aug) for aug in _get_all_synonym_permutation(syn_entries, corpus[i][tgt_lang].split())]
+        df_augmented = pd.DataFrame(one_entry_augmented, columns =[src_lang, tgt_lang])
+
+        if(os.path.isfile(tgt_path)):
+            df_augmented.to_csv(tgt_path, mode='a', index=False, header=False)
+        else:
+            df_augmented.to_csv(tgt_path, index=False)
+    print("Created new training instances in {}".format(tgt_path))
