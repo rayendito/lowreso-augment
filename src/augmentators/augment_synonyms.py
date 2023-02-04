@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from tqdm import tqdm
 
 def _get_preprocessed_lexicon(src_wordlist, tgt_wordlist):
     # sanity check
@@ -87,7 +88,7 @@ def augment_parallel_with_synonym(corpus, lexicon, src_lang, tgt_lang):
     tgt_path = "./data/augment_synonym/"+"synonym_augmented_{}-{}.csv".format(src_lang, tgt_lang)
 
     print("Creating new training instances from synonyms...")
-    for i in range(2):
+    for i in tqdm(range(len(corpus))):
         syn_entries = _get_synonym_entries_used(corpus[i][tgt_lang].split(), lexicon.values())
         if(len(syn_entries) == 0):
             continue
