@@ -23,9 +23,11 @@ def _get_substitute_group(sentence,model):
     word_groups = {}
     sentence_cleaned_tokenized =  re.sub(r'[^A-Za-z0-9 -]+', '', sentence).lower().split()
     for i in range(len(sentence_cleaned_tokenized)):
-        nearest_neighbors = model.get_nearest_neighbors(sentence_cleaned_tokenized[i])
-        word_groups[i] = [neighbor[1] for neighbor in nearest_neighbors if neighbor[0] >= 0.75]
-        print(sentence_cleaned_tokenized[i], word_groups[i])
+        threshold = 0.75
+        nearest_neighbors_above_threshold = [neighbor[1] for neighbor in model.get_nearest_neighbors(sentence_cleaned_tokenized[i]) if neighbor[0] >= threshold]
+        
+        if(len(nearest_neighbors_above_threshold) > 0):
+            word_groups[i] = [sentence_cleaned_tokenized[i]] + nearest_neighbors_above_threshold
     return word_groups
 
 def substitute_with_embedding(corpus, model_path):
@@ -38,6 +40,7 @@ def substitute_with_embedding(corpus, model_path):
 
     print("Creating new sentences from embedding space...")
     for sentence in corpus:
-        substitute_group = _get_substitute_group(sentence,model)
+        substitute_groups = _get_substitute_group(sentence,model)
+        print(substitute_groups)
         break
 
