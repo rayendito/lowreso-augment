@@ -1,0 +1,71 @@
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.70.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 70 : compactness -0.0015255652973859511
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.71.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 71 : compactness -0.0041971571951122605
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.72.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 72 : compactness -0.00345627653278926
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.73.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 73 : compactness -0.00441313086937751
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.74.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 74 : compactness -0.005812803502151462
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.75.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 75 : compactness -0.0024622381536540117
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.76.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 76 : compactness -0.0012813388008604894
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.77.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 77 : compactness -0.0015983051201113032
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.78.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 78 : compactness -0.002989932073331954
+=============TRAINING A WORD EMBEDDING MODEL=============
+Training model in progress...
+Model saved to ./data/augment_embeddingsp/embedding_models/skipgram/jv.skipgram.79.300.bin...
+Naming convention: jv.<method>.<#epoch>.<dimensions>.bin
+
+method skipgram epoch 79 : compactness -0.002080138666753083
+ORDERED RESULTS, COPYABLE
+-0.0015255652973859511
+-0.0041971571951122605
+-0.00345627653278926
+-0.00441313086937751
+-0.005812803502151462
+-0.0024622381536540117
+-0.0012813388008604894
+-0.0015983051201113032
+-0.002989932073331954
+-0.002080138666753083

@@ -1,10 +1,11 @@
 import os
 import fasttext
 import re
+from utils.substitute_permutation import get_all_substitution_permutation
 
-def train_fasttext_model(corpus_path, method = "cbow", minn = 2, maxn=4, epoch = 20, lr = 0.05):
+def train_fasttext_model_return_path(corpus_path, method = "cbow", minn = 2, maxn=4, epoch = 20, lr = 0.05):
     print("=============TRAINING A WORD EMBEDDING MODEL=============")
-    target_path = './data/augment_embeddingsp/embedding_models/jv.{}.{}.300.bin'.format(method, epoch)
+    target_path = './data/augment_embeddingsp/embedding_models/{}/jv.{}.{}.300.bin'.format(method, method, epoch)
     if(os.path.isfile(target_path)):
         print("fasttext model {} already exist! returning...\n".format(target_path))
         return target_path
@@ -30,7 +31,7 @@ def _get_substitute_group(sentence,model):
             word_groups[i] = [sentence_cleaned_tokenized[i]] + nearest_neighbors_above_threshold
     return word_groups
 
-def substitute_with_embedding(corpus, model_path):
+def substitute_with_embedding(corpus, model_path, target_path):
     print("=============SUBSTITUTING WITH A WORD EMBEDDING MODEL=============")
     if(not os.path.isfile(model_path)):
         raise AssertionError("model {} does not exist! returning...".format(model_path))
@@ -39,8 +40,15 @@ def substitute_with_embedding(corpus, model_path):
     model = _load_fasttext_model(model_path)
 
     print("Creating new sentences from embedding space...")
+
+    new_sentences = []
     for sentence in corpus:
         substitute_groups = _get_substitute_group(sentence,model)
-        print(substitute_groups)
-        break
-
+        for i in substitute_groups:
+            print(sentence.split()[i], substitute_groups[i])
+        # new_sentences += get_all_substitution_permutation(substitute_groups, sentence.split())
+    
+    # with open(target_path, "w") as txt_file:
+    #     for sent in new_sentences:
+    #         txt_file.write(sent+"\n")
+    #     print("augmented file in {}".format(target_path))
