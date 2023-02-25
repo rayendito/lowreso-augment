@@ -4,7 +4,7 @@ sys.path.append('./src')
 import fasttext
 import pickle
 from embd_evaluator.embeddingsp_eval import evaluate_compactness_score
-from augmentators.augment_embeddingsp import train_fasttext_model_return_path
+from augmentators.augmentator_embeddingsp import train_fasttext_model_return_path
 
 f = open('./data/augment_embeddingsp/embedding_model_evaluation/compactness_test.pkl', 'rb')   # 'rb' for reading binary file
 refs = list(pickle.load(f).values())
