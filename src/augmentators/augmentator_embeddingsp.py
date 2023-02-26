@@ -1,4 +1,7 @@
+import os
 import re
+from tqdm import tqdm
+import pandas as pd
 import numpy as np
 from loaders.load_embedding_space import load_embedding
 from utils.align_sentences import align_sentence_unique
@@ -18,12 +21,8 @@ def _get_word_vector(word, emb, word2id):
 
 def _vector_closeness(a, b):
     return (a / np.linalg.norm(a)).dot(b / np.linalg.norm(b))
-            
 
-def augment_parallel_with_embeddingsp(src_sent, tgt_sent):
-    src_sent = "Kami juga sudah melakukan penghitungan dan ditemukan adanya kecurangan. Pasti ada sogokan supaya dia menang."
-    tgt_sent = "Awake dhewe uga uwis nglakokake itungan lan ditemokake anane kecurangan. Mesthi ana sogokan ben dheweke menang."
-    
+def _augment_one_instance_with_embeddingsp(src_sent, tgt_sent):
     src_embd_space_path  = 'data/augment_embeddingsp/embedding_models/vectors-id.txt'
     tgt_embd_space_path  = 'data/augment_embeddingsp/embedding_models/vectors-jv.txt'
     
@@ -60,9 +59,6 @@ def augment_parallel_with_embeddingsp(src_sent, tgt_sent):
         neighbors_src_tokens = [neighbor[1] for neighbor in neighbors_src]
         neighbors_tgt_tokens = [neighbor[1] for neighbor in neighbors_tgt]
 
-        print(neighbors_src_tokens)
-        print(neighbors_tgt_tokens)
-
         pairs = _pair_scores_sorted(neighbors_src_tokens, neighbors_tgt_tokens)
         if(len(pairs) != 0):
             chosen_pair = pairs[np.random.randint(len(pairs))]
@@ -70,3 +66,20 @@ def augment_parallel_with_embeddingsp(src_sent, tgt_sent):
             tgt_sent_tok[pair[1]] = chosen_pair[2]
 
     return " ".join(src_sent_tok), " ".join(tgt_sent_tok)
+
+def augment_parallel_with_embeddingsp(corpus, dataset_name, src_lang, tgt_lang, runs_per_instance=2):
+    tgt_path = "./data/augment_embeddingsp/"+"embeddingsp_augmented_{}_{}-{}.csv".format(dataset_name, src_lang, tgt_lang)
+    print("Creating new training instances from embedding space...")
+    for i in tqdm(range(len(corpus))):
+        new_instances = []
+        for j in range(runs_per_instance):
+            augmented_src, augmented_tgt = _augment_one_instance_with_embeddingsp(corpus[i][src_lang], corpus[i][tgt_lang])
+            new_instances.append((augmented_src, augmented_tgt))
+
+        df_augmented = pd.DataFrame(new_instances, columns =[src_lang, tgt_lang])
+        if(os.path.isfile(tgt_path)):
+            df_augmented.to_csv(tgt_path, mode='a', index=False, header=False)
+        else:
+            df_augmented.to_csv(tgt_path, index=False)
+
+    print("Created new training instances in {}".format(tgt_path))
