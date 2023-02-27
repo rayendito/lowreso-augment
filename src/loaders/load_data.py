@@ -9,3 +9,9 @@ def load_data_nusax_jv():
 
     dataset = load_dataset("./data/nusax", data_files=data_files)
     return dataset
+
+def load_data_mono_as_list(path):
+    myfile = open(path, "r")
+    data = myfile.read()
+    myfile.close()
+    return data.split("\n")

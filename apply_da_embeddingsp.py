@@ -1,7 +1,6 @@
 import sys        
 sys.path.append('./src')
 
-import re
 from loaders.load_data import load_data_nusax_jv
 from augmentators.augmentator_embeddingsp import augment_parallel_with_embeddingsp
 

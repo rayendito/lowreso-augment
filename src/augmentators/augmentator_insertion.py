@@ -4,9 +4,6 @@ import pandas as pd
 from tqdm import tqdm
 from torch.linalg import norm
 from loaders.load_model_and_tokenizer import load_model_and_tokenizer
-
-# jgn lupa pip install sentence-splitter wkaokwaokwaoakw
-# https://github.com/mediacloud/sentence-splitter
 from sentence_splitter import SentenceSplitter, split_text_into_sentences
 
 def _get_torch_tensor_sim(a, b):
@@ -46,19 +43,25 @@ def augment_parallel_with_insertion(target_corpus, mono_corpus, dataset_name, sr
   tgt_path = "./data/augment_embeddingsp/"+"insertion_augmented_{}_{}-{}.csv".format(dataset_name, src_lang, tgt_lang)
   print("Creating new training instances with insertion...")
   print("Loading pretrained model...")
-  splitter = SentenceSplitter(language='en')
   model, tokenizer = load_model_and_tokenizer(pretrained_path)
+  splitter = SentenceSplitter(language='en')
+
+  print("Getting vector representation for sentences...")
   representation_dict = _get_representation_dict(mono_corpus, model, tokenizer)
 
-  for sent in tqdm(target_corpus):
-    closest_sentence = _get_closest_from_a_sentence(sent, model, tokenizer, representation_dict)
-    new_tgt_sentence = _insert_a_sentence_to_a_sentence(splitter, sent, closest_sentence)
-    new_src_sentence = _translate_a_sentence()
+  for thing in representation_dict:
+    print(thing)
+    print(representation_dict[thing])
+    break
+  # for sent in tqdm(target_corpus):
+  #   closest_sentence = _get_closest_from_a_sentence(sent, model, tokenizer, representation_dict)
+  #   new_tgt_sentence = _insert_a_sentence_to_a_sentence(splitter, sent, closest_sentence)
+  #   new_src_sentence = _translate_a_sentence()
 
-    df_augmented = pd.DataFrame([(new_src_sentence, new_tgt_sentence)], columns =[src_lang, tgt_lang])
-    if(os.path.isfile(tgt_path)):
-      df_augmented.to_csv(tgt_path, mode='a', index=False, header=False)
-    else:
-      df_augmented.to_csv(tgt_path, index=False)
+  #   df_augmented = pd.DataFrame([(new_src_sentence, new_tgt_sentence)], columns =[src_lang, tgt_lang])
+  #   if(os.path.isfile(tgt_path)):
+  #     df_augmented.to_csv(tgt_path, mode='a', index=False, header=False)
+  #   else:
+  #     df_augmented.to_csv(tgt_path, index=False)
 
-  print("Created new training instances in {}".format(tgt_path))
+  # print("Created new training instances in {}".format(tgt_path))
