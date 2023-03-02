@@ -1,9 +1,6 @@
-from simalign import SentenceAligner
-
-myaligner = SentenceAligner(model="bert", token_type="bpe", matching_methods="mai")
-
-def align_sentence_unique(src_sentence, tgt_sentence):
-    src_sentence = src_sentence.split()
-    tgt_sentence = tgt_sentence.split()
-    alignments = myaligner.get_word_aligns(src_sentence, tgt_sentence)
+def align_sentence_with_aligner(aligner, src_sentenc_split, tgt_sentence_split):
+    alignments = aligner.get_word_aligns(src_sentenc_split, tgt_sentence_split)
     return alignments['inter']
+
+def align_sentence_with_embedding_space(augmentation_tools, src_sent, tgt_sent):
+    pass
