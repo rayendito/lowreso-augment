@@ -1,5 +1,4 @@
 import pandas as pd
-from datasets import load_dataset
 
 def load_data_mono_as_list(path):
     myfile = open(path, "r", encoding="utf8")
