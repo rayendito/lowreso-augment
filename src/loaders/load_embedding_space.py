@@ -18,4 +18,5 @@ def load_embedding(emb_path, nmax=50000):
                 break
     id2word = {v: k for k, v in word2id.items()}
     embeddings = np.vstack(vectors)
+    f.close()
     return embeddings, id2word, word2id

@@ -21,6 +21,7 @@ def list_to_file(lis, target):
     fil = open(target,'w+', encoding="utf8")
     for item in lis:
         fil.write(item+"\n")
+    fil.close()
 
 # df = load_all_training_data()
 # df = df.replace('\n','', regex=True)
