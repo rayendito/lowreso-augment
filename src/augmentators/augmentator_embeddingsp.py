@@ -79,14 +79,14 @@ def augment_parallel_with_embeddingsp(corpus, src_lang, tgt_lang, augmentation_t
     tgt_file_path = "./data/augment_embeddingsp/"+"{}-{}.{}.untok".format(src_lang, tgt_lang, tgt_lang)
     print("Creating new training instances from embedding space...")
     
-    src_f = open(src_file_path, "a+", encoding="utf8")
-    tgt_f = open(tgt_file_path, "a+", encoding="utf8")
     for index, row in tqdm(corpus.iterrows()):
+        src_f = open(src_file_path, "a+", encoding="utf8")
+        tgt_f = open(tgt_file_path, "a+", encoding="utf8")
         for j in range(runs_per_instance):
             augmented_src, augmented_tgt = _augment_one_instance_with_embeddingsp(row[src_lang], row[tgt_lang], augmentation_tools, min_similarity)
             src_f.write(augmented_src+"\n")
             tgt_f.write(augmented_tgt+"\n")
-    src_f.close()
-    tgt_f.close()
+        src_f.close()
+        tgt_f.close()
 
     print("Created new training instances in {} and {}".format(src_file_path, tgt_file_path))
