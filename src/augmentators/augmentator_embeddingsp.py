@@ -74,19 +74,16 @@ def _augment_one_instance_with_embeddingsp(src_sent, tgt_sent, augmentation_tool
 
     return " ".join(src_sent_split), " ".join(tgt_sent_split)
 
-def augment_parallel_with_embeddingsp(corpus, dataset_name, src_lang, tgt_lang, augmentation_tools = 'None', runs_per_instance=2, min_similarity=0.4):
-    tgt_path = "./data/augment_embeddingsp/"+"embeddingsp_augmented_{}_{}-{}.csv".format(dataset_name, src_lang, tgt_lang)
+def augment_parallel_with_embeddingsp(corpus, src_lang, tgt_lang, augmentation_tools = 'None', runs_per_instance=2, min_similarity=0.4):
+    src_file_path = "./data/augment_embeddingsp/"+"{}-{}.{}.untok".format(src_lang, tgt_lang, src_lang)
+    tgt_file_path = "./data/augment_embeddingsp/"+"{}-{}.{}.untok".format(src_lang, tgt_lang, tgt_lang)
     print("Creating new training instances from embedding space...")
-    for i in tqdm(range(len(corpus))):
-        new_instances = []
+    for index, row in tqdm(corpus.iterrows()):
         for j in range(runs_per_instance):
-            augmented_src, augmented_tgt = _augment_one_instance_with_embeddingsp(corpus[i][src_lang], corpus[i][tgt_lang], augmentation_tools, min_similarity)
-            new_instances.append((augmented_src, augmented_tgt))
+            augmented_src, augmented_tgt = _augment_one_instance_with_embeddingsp(row[src_lang], row[tgt_lang], augmentation_tools, min_similarity)
+            with open(src_file_path, "a+", encoding="utf8") as src_f:
+                src_f.write(augmented_src+"\n")
+            with open(tgt_file_path, "a+", encoding="utf8") as tgt_f:
+                tgt_f.write(augmented_tgt+"\n")
 
-        df_augmented = pd.DataFrame(new_instances, columns =[src_lang, tgt_lang])
-        if(os.path.isfile(tgt_path)):
-            df_augmented.to_csv(tgt_path, mode='a', index=False, header=False)
-        else:
-            df_augmented.to_csv(tgt_path, index=False)
-
-    print("Created new training instances in {}".format(tgt_path))
+    print("Created new training instances in {} and {}".format(src_file_path, tgt_file_path))
